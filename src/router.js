@@ -6,6 +6,8 @@ import MaifitHome from './views/MaifitHome.vue';
 import MaifitProductInfo from './views/MaifitProductInfo.vue';
 import MaifitResult from './views/MaifitResult.vue';
 import MaifitLoading from './views/MaifitLoading.vue';
+import Maifituser from './views/Maifituser.vue';
+
 
 Vue.use(VueRouter);
 
@@ -18,6 +20,7 @@ const router = new VueRouter({
         { path: '/maifit/product_info', component: MaifitProductInfo },
         { path: '/maifit/result', component: MaifitResult },
         { path: '/maifit/loading', component: MaifitLoading },
+        { path: '/maifit/user', component: Maifituser },
     ]
 });
     
