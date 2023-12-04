@@ -1,22 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img class="logo" :src="logo" alt="Logo">
+    <router-view />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import logo from '@/assets/logo.png';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+  },
+  methods: {
+    toMaifit() {
+      this.$router.push({ name: 'MaifitHome' });
+    }
+  },
+  data() {
+    return {
+      logo
+    }
   }
 }
 </script>
 
 <style>
+.logo {
+  width: 512px;
+  margin-bottom: 10px;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
