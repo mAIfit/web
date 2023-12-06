@@ -1,10 +1,12 @@
 <template>
     <div>
-        <div class="image-container">
-            <img :src="image_path" alt="Product Image" />
-        </div>
-        <div class="info-container">
-            <h2>{{ brand }} {{ name }}</h2>
+        <div class="content-container">
+            <div class="image-container">
+                <img :src="image_path" alt="Product Image" />
+            </div>
+            <div class="info-container">
+                <h2>[{{ brand }}] {{ name }}</h2>
+            </div>
         </div>
         <div class="button-container">
             <button @click="goToPrev" class="button">Prev</button>
@@ -31,7 +33,7 @@ export default {
                 this.$router.push("/");
         },
         goToNext() {
-            this.$router.push({ path: "/maifit/result", params: { productId: this.productId } });
+            this.$router.push({ path: `/maifit/result/${this.productId}` });
         },
         fetchData() {
             // product link of format below
@@ -44,9 +46,9 @@ export default {
                 .then(response => {
                     this.showPrevButton = false;
                     console.log(response.data);
-                    // this.image_path = response.data.image_path;
-                    // this.brand = response.data.brand;
-                    // this.name = response.data.name;
+                    this.image_path = response.data.image;
+                    this.brand = response.data.brand;
+                    this.name = response.data.name;
                 })
                 .catch(error => {
                     console.error(error);
@@ -65,6 +67,11 @@ export default {
 </script>
 
 <style scoped>
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .image-container {
     width: 50%;
     float: left;
@@ -77,19 +84,17 @@ export default {
 
 .button-container {
     text-align: right;
-    bottom: 20px; /* Position from the bottom */
-    right: 20px; /* Position from the right */    
+    bottom: 0; /* Position from the bottom */
+    right: 0; /* Position from the right */    
     padding: 10px 20px;
 }
 
 .button {
-    position: fixed; /* Fixed positioning */
     background-color: #007bff;
     border: none;
     color: white;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 16px;
 }
 </style>
