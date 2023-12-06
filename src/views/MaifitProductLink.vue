@@ -44,7 +44,7 @@ export default {
       const productId = this.getProductId();
       console.log(productId);
       if (productId) {
-        this.$router.push({ path: `/maifit/product_info`, params: { productId: productId } } );
+        this.$router.push({ path: `/maifit/product_info/${productId}` } );
       } else {
         alert('Invalid product link');
       }
