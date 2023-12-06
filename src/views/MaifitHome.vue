@@ -41,47 +41,12 @@ export default {
     },
 
     async goToProductInfo() {
-      // use product_id in apiCall
       const productId = this.getProductId();
-      console.log(productId);
-      if (isNaN(productId)) {
-        alert('Please enter a valid product link');
-        this.clearCurrentPage();
-        return;
+      if (productId) {
+        this.$router.push({ path: `/maifit/product_info`, params: { productId } } );
+      } else {
+        alert('Invalid product link');
       }
-      const apiCall = this.$axios.get(`/goods/${this.getProductId()}`); // replace with your actual API call
-      const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), 3000));
-
-      Promise.race([apiCall, timeout])
-        .then(response => {
-          // handle successful API response here
-          // response.data has 3 attributes
-          // - image_path
-          // - brand
-          // - name
-          // navigate to product_info page with parameters image_path, brand, name
-
-          this.$router.push({
-            path: '/maifit/product_info',
-            params: {
-              image_path: response.data.image_path,
-              brand: response.data.brand,
-              name: response.data.name,
-            }
-          });
-        })
-        .catch(error => {
-          if (error.message === 'Request timed out') {
-            alert('API call did not return for 3 seconds');
-          }
-          else if (error.response.status === 404) {
-            alert('Not Found');
-          }
-          else {
-            alert('An error occurred');
-          }
-          this.clearCurrentPage();
-        });
     },
 
     clearCurrentPage() {

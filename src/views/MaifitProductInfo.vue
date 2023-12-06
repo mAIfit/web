@@ -7,8 +7,8 @@
             <h2>{{ brand }} {{ name }}</h2>
         </div>
         <div class="button-container">
-            <button @click="goToPrev">Prev</button>
-            <button @click="goToNext">Next</button>
+            <button @click="goToPrev" class="button">Prev</button>
+            <button @click="goToNext" class="button">Next</button>
         </div>
     </div>
 </template>
@@ -18,25 +18,45 @@ export default {
     name: "MaifitProductInfo",
     data() {
         return {
+            productId: "",
             image_path: "",
             brand: "",
-            name: ""
+            name: "",
+            showPrevButton: true,
         };
     },
     methods: {
         goToPrev() {
-            this.$router.push("/");
+            if (this.showPrevButton)
+                this.$router.push("/");
         },
         goToNext() {
             this.$router.push("/maifit/user");
+        },
+        fetchData() {
+            this.productId = this.$route.params.productId; // Get the "productId" parameter from the router
+            this.$axios.get(`goods/${this.productId}`)
+                .then(response => {
+                    this.showPrevButton = false;
+                    console.log(response.data);
+                    // this.image_path = response.data.image_path;
+                    // this.brand = response.data.brand;
+                    // this.name = response.data.name;
+                })
+                .catch(error => {
+                    console.error(error);
+                    this.goToPrev();
+                });
         }
     },
     created() {
-        this.image_path = this.$route.params.image_path;
-        this.brand = this.$route.params.brand;
-        this.name = this.$route.params.name;
+        setTimeout(this.fetchData, 3000);
+    },
+    beforeRouteLeave(to, from, next) {
+        this.showPrevButton = false;
+        next();
     }
-};
+}
 </script>
 
 <style scoped>
@@ -52,6 +72,19 @@ export default {
 
 .button-container {
     text-align: right;
-    margin-top: 20px;
+    bottom: 20px; /* Position from the bottom */
+    right: 20px; /* Position from the right */    
+    padding: 10px 20px;
+}
+
+.button {
+    position: fixed; /* Fixed positioning */
+    background-color: #007bff;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 </style>
