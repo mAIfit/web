@@ -43,8 +43,7 @@ export default {
 }
 
 .logo {
-  width: 800px;
-  height: 250px;
+  width: 512px;
   margin-top: 10px;
   margin-bottom: 20px;
 }
