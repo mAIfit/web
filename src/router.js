@@ -13,12 +13,37 @@ Vue.use(VueRouter);
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/', component: MaifitHome },
-        { path: '/about', component: AppAbout },
-        { path: '/maifit/product_info', component: MaifitProductInfo },
-        { path: '/maifit/result', component: MaifitResult },
-        { path: '/maifit/loading', component: MaifitLoading },
-        { path: '/maifit/user', component: MaifitUser },
+        {
+            path: '/',
+            name: 'MaifitHome',
+            component: MaifitHome
+        },
+        {
+            path: '/about',
+            name: 'AppAbout',
+            component: AppAbout
+        },
+        {
+            path: '/maifit/product_info',
+            name: 'MaifitProductInfo',
+            component: MaifitProductInfo,
+            props: true
+        },
+        {
+            path: '/maifit/result',
+            name: 'MaifitResult',
+            component: MaifitResult
+        },
+        {
+            path: '/maifit/loading',
+            name: 'MaifitLoading',
+            component: MaifitLoading
+        },
+        {
+            path: '/maifit/user',
+            name: 'MaifitUser',
+            component: MaifitUser
+        },
     ]
 });
     

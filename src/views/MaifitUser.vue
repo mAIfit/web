@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img src="./assets/logo.png" alt="Logo" class="logo" />
+    <img src="..\assets\logo.png" alt="Logo" class="logo" />
     <h1 class="title">체형예측에 사용할 본인의 사진을 올려주세요. (jpg only)</h1>
     <div class="big-box">
       <div class="image-upload">
@@ -31,14 +31,21 @@ export default {
       reader.readAsDataURL(file);
     },
     uploadImage() {
+      // Convert the selected image to FormData
       const formData = new FormData();
       formData.append('image', this.selectedImage);
 
-      // Use axios or any other library to make the HTTP request
-      axios.post('/upload', formData)
-        .then(response => {
-          // Once the image is uploaded, navigate to MaifitLoading.vue
-          this.$router.push('/maifit-loading');
+      // Send the image to the server using POST request
+      fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response from the server
+          console.log(data);
+          // Redirect to the next page
+          this.$router.push('/MaifitLoading');
         })
         .catch(error => {
           console.error(error);
