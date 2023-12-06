@@ -24,13 +24,13 @@ const router = new VueRouter({
             component: AppAbout
         },
         {
-            path: '/maifit/product_info',
+            path: '/maifit/product_info/:productId',
             name: 'MaifitProductInfo',
             component: MaifitProductInfo,
             props: true
         },
         {
-            path: '/maifit/result',
+            path: '/maifit/result/:productId',
             name: 'MaifitResult',
             component: MaifitResult
         },
