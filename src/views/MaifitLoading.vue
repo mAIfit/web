@@ -3,7 +3,6 @@
         <div class="loading-animation"></div>
         <!-- print the parameter nextView of format "nextView: {{ nextView }}"-->
         <!-- new line -->
-        <div>nextView: {{ this.nextView }}</div>
         <button class="button" @click="goToHome">Home</button>
     </div>
 </template>
@@ -56,7 +55,10 @@ export default {
         // }, 10000); // Change the delay time as per your requirement
     },
     created() {
-        this.nextView = this.$route.params.nextView;
+    setTimeout(() => {
+            // Navigate to the next view
+            this.$router.push({ path: '/maifit/result' });
+        }, 5000); // Delay of 5 seconds
     }
 }
 </script>
