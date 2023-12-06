@@ -12,8 +12,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'HomePage',
   components: {
@@ -51,7 +49,7 @@ export default {
         this.clearCurrentPage();
         return;
       }
-      const apiCall = axios.get(`/goods/${this.getProductId()}`); // replace with your actual API call
+      const apiCall = this.$axios.get(`/goods/${this.getProductId()}`); // replace with your actual API call
       const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), 3000));
 
       Promise.race([apiCall, timeout])
