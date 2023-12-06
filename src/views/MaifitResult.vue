@@ -1,5 +1,7 @@
 <template>
     <div class="container">
+        <MaifitLoading v-if="loadComplete == false" />
+
         <div class="image-label-container" v-if="displayedImageUrl">
             <div class="displayed-image">
                 <img
@@ -50,15 +52,15 @@
         </div>
         
 
-        <div class="image-list">
+        <div class="image-list" v-if="loadComplete">
             <div class="scroll-container">
                 <div class="scroll-content">
-                    <div v-for="image in images" :key="image.id" class="image-item">
+                    <div v-for="review in reviews" :key="review.id" class="image-item">
                         <img
-                            :src="require(`@/assets/test/${image.url}`)"
+                            :src="require(`@/assets/test/${review.image}`)"
                             alt="Image"
                             class="image"
-                            @click="displayImage(image.url)"
+                            @click="displayImage(review.image)"
                         />
                     </div>
                 </div>
@@ -70,16 +72,22 @@
 </template>
 
 <script>
+import MaifitLoading from "@/views/MaifitLoading.vue";
+
 export default {
+    components: {
+        MaifitLoading,
+    },
     data() {
         return {
-            images: [
-                { id: 1, url: "blood.jpg" },
-                { id: 2, url: "butterfly.jpg" },
-                { id: 3, url: "color.jpg" },
-                { id: 4, url: "quality.webp" },
-                { id: 5, url: "valentines.png" },
-                { id: 6, url: "yoga.webp" },
+            productId: "",
+            reviews: [
+                { id: 1, image: "blood.jpg" , height: 170, weight: 60, product_size: "M", comments: "C1" },
+                { id: 2, image: "butterfly.jpg" , height: 170, weight: 65, product_size: "L", comments: "C2" },
+                { id: 3, image: "color.jpg" , height: 170, weight: 64, product_size: "XL", comments: "C3" },
+                { id: 4, image: "quality.webp" , height: 170, weight: 63, product_size: "S", comments: "C4" },
+                { id: 5, image: "valentines.png" , height: 170, weight: 62, product_size: "M", comments: "C5" },
+                { id: 6, image: "yoga.webp" , height: 170, weight: 61, product_size: "L", comments: "C6" },
             ],
             displayedImageUrl: null,
             attribute1: "Value 1",
@@ -87,6 +95,7 @@ export default {
             attribute3: "Value 3",
             attribute4: "Value 4",
             comments: "comments by reviewer",
+            loadComplete: false,
         };
     },
     methods: {
@@ -98,6 +107,29 @@ export default {
             this.$router.push({ path: '/' });
         },
     },
+    created() {
+        this.productId = this.$route.params.productId; 
+        try {
+            this.$axios.get(`/api/goods/${this.productId}/reviews?user_id=1`)
+                .then(response => {
+                    console.log(response.data);
+                    this.reviews = response.data;
+                    this.loadComplete = true;
+                })
+                .catch(error => {
+                    if (error.response && error.response.status === 404) {
+                        console.log("404 Error: Not Found");
+                        setTimeout(() => {
+                                this.loadComplete = true;
+                            }, 3000);
+                    } else {
+                        console.error(error);
+                    }
+                });
+        } catch (error) {
+            console.error(error);
+        }
+    }
 };
 </script>
 
