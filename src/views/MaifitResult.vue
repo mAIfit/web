@@ -45,8 +45,8 @@
                     </div>
                 </div>
                 <div>
-                    Comments <br/>
-                    {{ comments }}
+                    content <br/>
+                    {{ content }}
                 </div>
             </div>
         </div>
@@ -82,19 +82,19 @@ export default {
         return {
             productId: "",
             reviews: [
-                { id: 1, image: "blood.jpg" , height: 170, weight: 60, product_size: "M", comments: "C1" },
-                { id: 2, image: "butterfly.jpg" , height: 170, weight: 65, product_size: "L", comments: "C2" },
-                { id: 3, image: "color.jpg" , height: 170, weight: 64, product_size: "XL", comments: "C3" },
-                { id: 4, image: "quality.webp" , height: 170, weight: 63, product_size: "S", comments: "C4" },
-                { id: 5, image: "valentines.png" , height: 170, weight: 62, product_size: "M", comments: "C5" },
-                { id: 6, image: "yoga.webp" , height: 170, weight: 61, product_size: "L", comments: "C6" },
+                { id: 1, image: "blood.jpg" , height: 170, weight: 60, product_size: "M", content: "C1" },
+                { id: 2, image: "butterfly.jpg" , height: 170, weight: 65, product_size: "L", content: "C2" },
+                { id: 3, image: "color.jpg" , height: 170, weight: 64, product_size: "XL", content: "C3" },
+                { id: 4, image: "quality.webp" , height: 170, weight: 63, product_size: "S", content: "C4" },
+                { id: 5, image: "valentines.png" , height: 170, weight: 62, product_size: "M", content: "C5" },
+                { id: 6, image: "yoga.webp" , height: 170, weight: 61, product_size: "L", content: "C6" },
             ],
             displayedImageUrl: null,
             attribute1: "Value 1",
             attribute2: "Value 2",
             attribute3: "Value 3",
             attribute4: "Value 4",
-            comments: "comments by reviewer",
+            content: "content by reviewer",
             loadComplete: false,
         };
     },
@@ -110,7 +110,7 @@ export default {
     created() {
         this.productId = this.$route.params.productId; 
         try {
-            this.$axios.get(`/api/goods/${this.productId}/reviews?user_id=1`)
+            this.$axios.get(`/api/goods/${this.productId}/reviews?user_id=100`)
                 .then(response => {
                     console.log(response.data);
                     this.reviews = response.data;
@@ -119,6 +119,8 @@ export default {
                 .catch(error => {
                     if (error.response && error.response.status === 404) {
                         console.log("404 Error: Not Found");
+                        console.error(error);
+
                         setTimeout(() => {
                                 this.loadComplete = true;
                             }, 3000);
