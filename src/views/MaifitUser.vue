@@ -9,7 +9,7 @@
         </div>
       </div>
     <div class="input-fields">
-      <input type="string" v-model="sex" placeholder="성별" />
+      <input type="string" v-model="sex" placeholder="성별(M,F)" />
       <input type="number" v-model="height" placeholder="키(cm)" />
     </div>
     <button class="next-button" @click="uploadImage">다음</button>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -37,29 +38,23 @@ export default {
     uploadImage() {
       this.$router.push('/maifit/product_link');
 
-      // Convert the selected image, sex and height to FormData
       const formData = new FormData();
       formData.append('sex', this.sex);
       formData.append('height', this.height);
       formData.append('image', this.selectedImage);
 
+      //const apiUrl = 'https://port-0-maifit-server-eu1k2lllf479w5.sel3.cloudtype.app/clients';
       // Send the data to the server using POST request
-      fetch('/clients', {
-        method: 'POST',
-        body: formData
-      })
-        .then(response => response.json())
-        .then(data => {
-          // Handle the response from the server
-          console.log(data);
-          // Redirect to the next page
-          // 이미지에 bbox 빨간 선으로 그리기
-          this.$router.push('/maifit/loading');
-
+      //axios.get('https://jsonplaceholder.typicode.com/users/')
+      axios.get('https://port-0-maifit-server-eu1k2lllf479w5.sel3.cloudtype.app/Brands/')
+        .then(response => {
+          console.log('성공적인 응답:', response.data);
         })
         .catch(error => {
-          console.error(error);
+          console.error('에러 발생:', error.message);
         });
+          // 이미지에 bbox 빨간 선으로 그리기
+          //this.$router.push('/maifit/loading');
     }
   }
 };
