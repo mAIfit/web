@@ -45,7 +45,7 @@ export default {
           // Handle the response from the server
           console.log(data);
           // Redirect to the next page
-          this.$router.push('/MaifitLoading');
+          this.$router.push('/maifit/loading');
         })
         .catch(error => {
           console.error(error);
