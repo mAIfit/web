@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <button class="next-button">다음</button>
+    <button class="next-button" @click="uploadImage">다음</button>
   </div>
 </template>
 
@@ -29,6 +29,20 @@ export default {
         this.selectedImage = reader.result;
       };
       reader.readAsDataURL(file);
+    },
+    uploadImage() {
+      const formData = new FormData();
+      formData.append('image', this.selectedImage);
+
+      // Use axios or any other library to make the HTTP request
+      axios.post('/upload', formData)
+        .then(response => {
+          // Once the image is uploaded, navigate to MaifitLoading.vue
+          this.$router.push('/maifit-loading');
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   }
 };
