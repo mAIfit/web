@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img src="assets/logo.png" alt="Logo" class="logo" />
+    <img src="./assets/logo.png" alt="Logo" class="logo" />
     <h1 class="title">체형예측에 사용할 본인의 사진을 올려주세요. (jpg only)</h1>
     <div class="big-box">
       <div class="image-upload">
@@ -43,8 +43,7 @@ export default {
 }
 
 .logo {
-  width: 800px;
-  height: 250px;
+  width: 512px;
   margin-top: 10px;
   margin-bottom: 20px;
 }
