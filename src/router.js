@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import AppAbout from './views/AppAbout.vue';
-import MaifitHome from './views/MaifitHome.vue';
+import MaifitProductLink from './views/MaifitProductLink.vue';
 import MaifitProductInfo from './views/MaifitProductInfo.vue';
 import MaifitResult from './views/MaifitResult.vue';
 import MaifitLoading from './views/MaifitLoading.vue';
@@ -14,9 +14,9 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/',
-            name: 'MaifitHome',
-            component: MaifitHome
+            path: '/maifit/product_link',
+            name: 'MaifitProductLink',
+            component: MaifitProductLink
         },
         {
             path: '/about',
@@ -40,7 +40,7 @@ const router = new VueRouter({
             component: MaifitLoading
         },
         {
-            path: '/maifit/user',
+            path: '/',
             name: 'MaifitUser',
             component: MaifitUser
         },

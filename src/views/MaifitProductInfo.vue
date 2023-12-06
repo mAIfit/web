@@ -31,7 +31,7 @@ export default {
                 this.$router.push("/");
         },
         goToNext() {
-            this.$router.push("/maifit/user");
+            this.$router.push("/maifit/loading");
         },
         fetchData() {
             this.productId = this.$route.params.productId; // Get the "productId" parameter from the router

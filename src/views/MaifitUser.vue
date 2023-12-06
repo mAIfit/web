@@ -1,7 +1,6 @@
 
 <template>
   <div class="container">
-    <img src="@/assets/logo.png" alt="Logo" class="logo" />
     <h1 class="title">체형예측에 사용할 본인의 사진을 올려주세요. (jpg only)</h1>
       <div class="image-upload">
         <input type="file" accept="image/jpeg" @change="handleImageUpload" />
@@ -36,6 +35,8 @@ export default {
       reader.readAsDataURL(file);
     },
     uploadImage() {
+      this.$router.push('/maifit/product_link');
+
       // Convert the selected image, sex and height to FormData
       const formData = new FormData();
       formData.append('sex', this.sex);
@@ -43,7 +44,7 @@ export default {
       formData.append('image', this.selectedImage);
 
       // Send the data to the server using POST request
-      fetch('/api/upload', {
+      fetch('/clients', {
         method: 'POST',
         body: formData
       })
@@ -52,7 +53,9 @@ export default {
           // Handle the response from the server
           console.log(data);
           // Redirect to the next page
+          // 이미지에 bbox 빨간 선으로 그리기
           this.$router.push('/maifit/loading');
+
         })
         .catch(error => {
           console.error(error);
@@ -70,16 +73,9 @@ export default {
   justify-content: center;
 }
 
-.logo {
-  width: 512px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
 .title {
   font-size: 24px;
   text-align: center;
-  margin-top: 20px;
 }
 
 .image-upload {
