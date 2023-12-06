@@ -42,8 +42,9 @@ export default {
 
     async goToProductInfo() {
       const productId = this.getProductId();
+      console.log(productId);
       if (productId) {
-        this.$router.push({ path: `/maifit/product_info`, params: { productId } } );
+        this.$router.push({ path: `/maifit/product_info`, params: { productId: productId } } );
       } else {
         alert('Invalid product link');
       }

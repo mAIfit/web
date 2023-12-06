@@ -31,11 +31,16 @@ export default {
                 this.$router.push("/");
         },
         goToNext() {
-            this.$router.push("/maifit/loading");
+            this.$router.push({ path: "/maifit/result", params: { productId: this.productId } });
         },
         fetchData() {
+            // product link of format below
+            // e.g. https://www.musinsa.com/app/goods/3590467?loc=goods_rank
+            // https://www.musinsa.com/app/goods/3555045?loc=goods_rank
+            // https://www.musinsa.com/app/goods/2794019
             this.productId = this.$route.params.productId; // Get the "productId" parameter from the router
-            this.$axios.get(`goods/${this.productId}`)
+            console.log('productId: ', this.productId);
+            this.$axios.get(`/api/goods/${this.productId}`)
                 .then(response => {
                     this.showPrevButton = false;
                     console.log(response.data);
@@ -45,12 +50,12 @@ export default {
                 })
                 .catch(error => {
                     console.error(error);
-                    this.goToPrev();
                 });
         }
     },
     created() {
-        setTimeout(this.fetchData, 3000);
+        this.fetchData();
+        console.log(this.$route.params)
     },
     beforeRouteLeave(to, from, next) {
         this.showPrevButton = false;
