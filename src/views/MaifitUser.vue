@@ -9,7 +9,7 @@
         </div>
       </div>
     <div class="input-fields">
-      <input type="string" v-model="sex" placeholder="성별(M,F)" />
+      <input type="string" v-model="gender" placeholder="성별(M,F)" />
       <input type="number" v-model="height" placeholder="키(cm)" />
     </div>
     <button class="next-button" @click="uploadImage">다음</button>
@@ -22,9 +22,10 @@ export default {
   data() {
     return {
       selectedImage: null,
-      sex: null,
+      gender: null,
       height: null
     };
+    
   },
   methods: {
     handleImageUpload(event) {
@@ -36,25 +37,32 @@ export default {
       reader.readAsDataURL(file);
     },
     uploadImage() {
-      this.$router.push('/maifit/product_link');
-
       const formData = new FormData();
-      formData.append('sex', this.sex);
+      formData.append('gender', this.gender);
       formData.append('height', this.height);
       formData.append('image', this.selectedImage);
 
       //const apiUrl = 'https://port-0-maifit-server-eu1k2lllf479w5.sel3.cloudtype.app/clients';
       // Send the data to the server using POST request
       //axios.get('https://jsonplaceholder.typicode.com/users/')
-      axios.get('https://port-0-maifit-server-eu1k2lllf479w5.sel3.cloudtype.app/Brands/')
+      
+      //I want to post the formData to 'http://kevinshin.iptime.org/users/'
+      axios.post('http://kevinshin.iptime.org/clients', formData)
         .then(response => {
-          console.log('성공적인 응답:', response.data);
-        })
+          console.log(response.data);
+          //get the user id from the response
+          const user_Val = response.data.is_valid;
+          console.log(user_Val);
+          if(user_Val == true){
+            this.$router.push('/maifit/product_link', { userData: response.data });
+          }
+          else{
+            alert("사진을 다시 올려주세요.");
+          }}
+        )
         .catch(error => {
-          console.error('에러 발생:', error.message);
+          console.error(error);
         });
-          // 이미지에 bbox 빨간 선으로 그리기
-          //this.$router.push('/maifit/loading');
     }
   }
 };
@@ -100,7 +108,7 @@ export default {
   display: flex;
   flex-direction: column; /* 위아래로 정렬하기 위해 flex-direction: column; 추가 */
   align-items: center; /* 수직 정렬을 위해 align-items 추가 */
-  margin-top : 580px;
+  margin-top : 100px;
   position: absolute;
 }
 
@@ -113,7 +121,7 @@ export default {
   padding: 10px 20px;
   font-size: 16px;
   margin-left: 700px;
-  margin-top: 550px;
+  margin-top: 150px;
   position: absolute;
 }
 </style>

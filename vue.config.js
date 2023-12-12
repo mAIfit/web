@@ -4,7 +4,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://port-0-maifit-server-eu1k2lllf479w5.sel3.cloudtype.app/',
+        target: 'http://kevinshin.iptime.org/',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
