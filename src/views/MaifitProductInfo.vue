@@ -25,6 +25,7 @@ export default {
             brand: "",
             name: "",
             showPrevButton: true,
+            userId: 0,
         };
     },
     methods: {
@@ -33,7 +34,7 @@ export default {
                 this.$router.push("/");
         },
         goToNext() {
-            this.$router.push({ path: `/maifit/result/${this.productId}` });
+            this.$router.push({ path: `/maifit/result/${this.productId}/${this.userId}` });
         },
         fetchData() {
             // product link of format below
@@ -58,6 +59,7 @@ export default {
     created() {
         this.fetchData();
         console.log(this.$route.params)
+        this.userId = this.$route.params.userId;
     },
     beforeRouteLeave(to, from, next) {
         this.showPrevButton = false;

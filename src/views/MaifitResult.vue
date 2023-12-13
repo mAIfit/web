@@ -44,7 +44,7 @@
                         {{ displayedReview.product_size }}
                     </div>
                 </div>
-                <div>
+                <div @click="closeModal">
                     content <br/>
                     {{ displayedReview.content }}
                 </div>
@@ -68,11 +68,12 @@
 
         
         <!-- Modal -->
-        <div class="modal" v-if="this.showModal" @click="closeModal">
-            <div class="modal-content" @click.stop>
-                <button>prev</button>
-            </div>
-        </div>
+        <!-- <MaifitMesh v-if="showModal" 
+                    :userMeshImage=userMeshImage
+                    :reviewerMeshImage=reviewerMeshImage
+                    @close-modal="showModal=false"
+                    :meshComplete="meshComplete"
+        /> -->
         <button @click="goToHome" class="button">Home</button>
     </div>
 </template>
@@ -102,6 +103,8 @@ export default {
             meshComplete: false,
             userMeshImage: "",
             reviewerMeshImage: "",
+
+            userId: 0,
         };
     },
     methods: {
@@ -118,18 +121,28 @@ export default {
             // API call to get human mesh from user and reviewer
             // display in popup
 
-            this.meshComplete = false;
-            // 1. API call
-            this.userMeshImage = '@/assets/test/'+this.reviews[0].image;
-            this.reviewerMeshImage = '@/assets/test/'+this.displayedReview.image;
-            console.log("userMeshImage: ", this.userMeshImage);
-            console.log("reviewerMeshImage: ", this.reviewerMeshImage);
-            
-            // 2. Display in popup
-            this.openModal()
-            this.showModal = true;
-            this.meshComplete = true; // TODO: inside API call
-            console.log("showModal: ", this.showModal)
+            // this.meshComplete = false;
+            // // 1. API call
+            // this.$axios.get(`/api/reviews/:${this.displayedReview.id}/body_shapes?user_id=${this.userId}`)
+            //     .then(response => {
+            //         console.log(response.data);
+            //         this.userMeshImage = response.data.user_model_image;
+            //         this.reviewerMeshImage = response.data.review_model_image;
+            //         this.meshComplete = true; // TODO: inside API call
+            //         // 2. Display in popup
+            //         this.openModal();
+            //     })
+            //     .catch(error => {
+            //         console.error(error);
+            //         this.userMeshImage = require(`@/assets/test/${this.reviews[0].image}`);
+            //         this.reviewerMeshImage = require(`@/assets/test/${this.displayedReview.image}`);
+            //         // alert("Error: " + error);
+            //     });
+            // console.log("userMeshImage: ", this.userMeshImage);
+            // console.log("reviewerMeshImage: ", this.reviewerMeshImage);
+            // this.openModal();
+            // console.log("showModal: ", this.showModal)
+            this.$router.push({ path: `/maifit/compare/${this.userId}/${this.displayedReview.id}` });
         },
 
         openModal() {
@@ -142,31 +155,25 @@ export default {
     },
     created() {
         this.productId = this.$route.params.productId; 
-        try {
-            this.$axios.get(`/api/goods/${this.productId}/reviews?user_id=1`)
-                .then(response => {
-                    console.log(response.data);
-                    this.reviews = response.data;
-                    this.loadComplete = true;
-                })
-                .catch(error => {
-                    if (error.response && error.response.status === 404) {
-                        console.log("404 Error: Not Found");
-                        console.error(error);
-
-                        setTimeout(() => {
-                                this.loadComplete = true;
-                            }, 3000);
-                    } else {
-                        setTimeout(() => {
-                                this.loadComplete = true;
-                            }, 3000);
-                        console.error(error);
-                    }
-                });
-        } catch (error) {
-            console.error(error);
-        }
+        this.userId = this.$route.params.userId;
+        console.log('productId: ', this.productId);
+        console.log('userId: ', this.userId);
+        // try {
+        //     this.$axios.get(`/api/goods/${this.productId}/reviews?user_id=${this.userId}`)
+        //         .then(response => {
+        //             console.log(response.data);
+        //             this.reviews = response.data;
+        //             this.loadComplete = true;
+        //         })
+        // } catch (error) {
+        //     console.log("Error: ", error);
+        //     setTimeout(() => {
+        //         this.loadComplete = true;
+        //     }, 3000);
+        // }
+        setTimeout(() => {
+                this.loadComplete = true;
+            }, 1000);
     }
 };
 </script>
@@ -270,5 +277,25 @@ export default {
     padding: 20px;
     display: flex;
     justify-content: space-between;
+}
+
+.user-mesh-container {
+    width: 50%;
+}
+
+.user-mesh-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reviewer-mesh-container {
+    width: 50%;
+}
+
+.reviewer-mesh-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 </style>

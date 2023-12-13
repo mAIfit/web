@@ -47,7 +47,7 @@ export default {
       //I want to post the formData to 'http://kevinshin.iptime.org/clients'
       axios({
         method: 'post',
-        url: 'http://kevinshin.iptime.org/clients',
+        url: '/api/clients',
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -58,8 +58,11 @@ export default {
         //get the user id from the response
         const user_Val = response.data.is_valid;
         console.log(user_Val);
-        if(user_Val == true){
-          this.$router.push({ path: '/maifit/product_link', params: { userData: response.data } });
+        if (user_Val == true) {
+          console.log('user is valid')
+          console.log(response.data);
+          const userId = response.data.id;
+          this.$router.push({ path: `/maifit/product_link/${userId}` });
         }
         else{
           alert("사진을 다시 올려주세요.");

@@ -6,7 +6,7 @@ import MaifitProductInfo from './views/MaifitProductInfo.vue';
 import MaifitResult from './views/MaifitResult.vue';
 import MaifitLoading from './views/MaifitLoading.vue';
 import MaifitUser from './views/MaifitUser.vue';
-
+import MaifitCompare from './views/MaifitCompare.vue';
 
 Vue.use(VueRouter);
 
@@ -14,7 +14,7 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/maifit/product_link',
+            path: '/maifit/product_link/:userId',
             name: 'MaifitProductLink',
             component: MaifitProductLink,
             props: true,
@@ -25,13 +25,13 @@ const router = new VueRouter({
             component: AppAbout
         },
         {
-            path: '/maifit/product_info/:productId',
+            path: '/maifit/product_info/:productId/:userId',
             name: 'MaifitProductInfo',
             component: MaifitProductInfo,
             props: true
         },
         {
-            path: '/maifit/result/:productId',
+            path: '/maifit/result/:productId/:userId',
             name: 'MaifitResult',
             component: MaifitResult
         },
@@ -45,6 +45,11 @@ const router = new VueRouter({
             name: 'MaifitUser',
             component: MaifitUser
         },
+        {
+            path: '/maifit/compare/:userId/:reviewId',
+            name: 'MaifitCompare',
+            component: MaifitCompare,
+        }
     ]
 });
     

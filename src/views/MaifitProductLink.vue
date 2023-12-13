@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      productLink: '',
+      userId: 0,
     }
   },
   methods: {
@@ -43,9 +43,10 @@ export default {
 
     async goToProductInfo() {
       const productId = this.getProductId();
+      const userId = this.userId;
       console.log(productId);
       if (productId) {
-        this.$router.push({ path: `/maifit/product_info/${productId}` } );
+        this.$router.push({ path: `/maifit/product_info/${productId}/${userId}` } );
       } else {
         alert('Invalid product link');
       }
@@ -54,7 +55,11 @@ export default {
     clearCurrentPage() {
       this.productLink = '';
     },
-  }
+  },
+
+  created() {
+    this.userId = this.$route.params.userId;
+  },
 }
 </script>
 
