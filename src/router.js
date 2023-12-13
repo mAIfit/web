@@ -16,7 +16,8 @@ const router = new VueRouter({
         {
             path: '/maifit/product_link',
             name: 'MaifitProductLink',
-            component: MaifitProductLink
+            component: MaifitProductLink,
+            props: true,
         },
         {
             path: '/about',

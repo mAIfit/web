@@ -14,6 +14,7 @@
 <script>
 export default {
   name: 'MaifitProductLink',
+  props: ['userData'],
   components: {
   },
   data() {

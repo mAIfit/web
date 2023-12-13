@@ -54,7 +54,7 @@ export default {
           const user_Val = response.data.is_valid;
           console.log(user_Val);
           if(user_Val == true){
-            this.$router.push('/maifit/product_link', { userData: response.data });
+            this.$router.push({ path: '/maifit/product_link', params: { userData: response.data } });
           }
           else{
             alert("사진을 다시 올려주세요.");
