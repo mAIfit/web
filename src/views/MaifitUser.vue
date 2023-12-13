@@ -31,7 +31,7 @@ export default {
   methods: {
     handleImageUpload(event) {
       const file = event.target.files[0];
-      console.log(file);
+      //console.log(file);
       //const reader = new FileReader();
       //reader.onload = () => {
       //  this.selectedImage = reader.result;
@@ -54,10 +54,10 @@ export default {
         },
       })
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
         //get the user id from the response
         const user_Val = response.data.is_valid;
-        console.log(user_Val);
+        //console.log(user_Val);
         if (user_Val == true) {
           console.log('user is valid')
           console.log(response.data);
