@@ -42,7 +42,7 @@ export default {
             // https://www.musinsa.com/app/goods/2794019
             this.productId = this.$route.params.productId; // Get the "productId" parameter from the router
             console.log('productId: ', this.productId);
-            this.$axios.get(`api/goods/${this.productId}`)
+            this.$axios.get(`http://kevinshin.iptime.org/goods/${this.productId}`)
                 .then(response => {
                     this.showPrevButton = false;
                     console.log(response.data);
