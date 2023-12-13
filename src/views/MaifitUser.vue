@@ -18,6 +18,7 @@
 
 <script>
 import axios from 'axios';
+const formData = new FormData();
 export default {
   data() {
     return {
@@ -30,39 +31,49 @@ export default {
   methods: {
     handleImageUpload(event) {
       const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.selectedImage = reader.result;
-      };
-      reader.readAsDataURL(file);
+      console.log(file);
+      //const reader = new FileReader();
+      //reader.onload = () => {
+      //  this.selectedImage = reader.result;
+      //};
+      //reader.readAsDataURL(file);
+      formData.append('image', file);
     },
     uploadImage() {
-      const formData = new FormData();
+      //const formData = new FormData();
       formData.append('gender', this.gender);
       formData.append('height', this.height);
-      formData.append('image', this.selectedImage);
+      console.log(formData);
+      //formData.append('image', this.selectedImage);
 
       //const apiUrl = 'https://port-0-maifit-server-eu1k2lllf479w5.sel3.cloudtype.app/clients';
       // Send the data to the server using POST request
       //axios.get('https://jsonplaceholder.typicode.com/users/')
       
       //I want to post the formData to 'http://kevinshin.iptime.org/users/'
-      axios.post('http://kevinshin.iptime.org/clients', formData)
-        .then(response => {
-          console.log(response.data);
-          //get the user id from the response
-          const user_Val = response.data.is_valid;
-          console.log(user_Val);
-          if(user_Val == true){
-            this.$router.push({ path: '/maifit/product_link', params: { userData: response.data } });
-          }
-          else{
-            alert("사진을 다시 올려주세요.");
-          }}
-        )
-        .catch(error => {
-          console.error(error);
-        });
+      axios({
+        method: 'post',
+        url: 'http://kevinshin.iptime.org/clients',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        //get the user id from the response
+        const user_Val = response.data.is_valid;
+        console.log(user_Val);
+        if(user_Val == true){
+          this.$router.push({ path: '/maifit/product_link', params: { userData: response.data } });
+        }
+        else{
+          alert("사진을 다시 올려주세요.");
+        }}
+      )
+      .catch(error => {
+        console.error(error);
+      });
     }
   }
 };
