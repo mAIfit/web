@@ -2,10 +2,10 @@
     <div class="container">
         <MaifitLoading v-if="loadComplete == false" />
 
-        <div class="image-label-container" v-if="displayedImageUrl">
+        <div class="image-label-container" v-if="displayedReview">
             <div class="displayed-image">
                 <img
-                    :src="require(`@/assets/test/${displayedImageUrl}`)"
+                    :src="require(`@/assets/test/${displayedReview.image}`)"
                     alt="Displayed Image"
                     class="displayed-image"
                 />
@@ -13,11 +13,11 @@
 
             <div class="labels-container">
                 <div class="label-row">
-                    <div class="label-item">
-                        Body shape compatibility:
-                    </div>
-                    <div class="label-item">
-                        {{ attribute1 }}
+                    <div class="label-item" 
+                        @click="displayBodyShapeCompatibility()" 
+                        style="text-decoration: underline;
+                               cursor: pointer">
+                        Body shape compatibility
                     </div>
                 </div>
                 <div class="label-row">
@@ -25,7 +25,7 @@
                         Heights:
                     </div>
                     <div class="label-item">
-                        {{ attribute2 }}
+                        {{ displayedReview.height }}
                     </div>
                 </div>
                 <div class="label-row">
@@ -33,7 +33,7 @@
                         Weights:
                     </div>
                     <div class="label-item">
-                        {{ attribute3 }}
+                        {{ displayedReview.weight }}
                     </div>
                 </div>
                 <div class="label-row">
@@ -41,16 +41,15 @@
                         Size:
                     </div>
                     <div class="label-item">
-                        {{ attribute4 }}
+                        {{ displayedReview.product_size }}
                     </div>
                 </div>
                 <div>
                     content <br/>
-                    {{ content }}
+                    {{ displayedReview.content }}
                 </div>
             </div>
         </div>
-        
 
         <div class="image-list" v-if="loadComplete">
             <div class="scroll-container">
@@ -60,13 +59,20 @@
                             :src="require(`@/assets/test/${review.image}`)"
                             alt="Image"
                             class="image"
-                            @click="displayImage(review.image)"
+                            @click="displayReview(review.id)"
                         />
                     </div>
                 </div>
             </div>
         </div>
 
+        
+        <!-- Modal -->
+        <div class="modal" v-if="this.showModal" @click="closeModal">
+            <div class="modal-content" @click.stop>
+                <button>prev</button>
+            </div>
+        </div>
         <button @click="goToHome" class="button">Home</button>
     </div>
 </template>
@@ -89,28 +95,55 @@ export default {
                 { id: 5, image: "valentines.png" , height: 170, weight: 62, product_size: "M", content: "C5" },
                 { id: 6, image: "yoga.webp" , height: 170, weight: 61, product_size: "L", content: "C6" },
             ],
-            displayedImageUrl: null,
-            attribute1: "Value 1",
-            attribute2: "Value 2",
-            attribute3: "Value 3",
-            attribute4: "Value 4",
-            content: "content by reviewer",
+            displayedReview: null,
             loadComplete: false,
+
+            showModal: false,
+            meshComplete: false,
+            userMeshImage: "",
+            reviewerMeshImage: "",
         };
     },
     methods: {
-        displayImage(url) {
-            this.displayedImageUrl = url;
+        displayReview(id) {
+            this.displayedReview = this.reviews.find(review => review.id === id);
         },
 
         goToHome() {
             this.$router.push({ path: '/' });
         },
+
+        displayBodyShapeCompatibility() {
+            console.log("displayBodyShapeCompatibility");
+            // API call to get human mesh from user and reviewer
+            // display in popup
+
+            this.meshComplete = false;
+            // 1. API call
+            this.userMeshImage = '@/assets/test/'+this.reviews[0].image;
+            this.reviewerMeshImage = '@/assets/test/'+this.displayedReview.image;
+            console.log("userMeshImage: ", this.userMeshImage);
+            console.log("reviewerMeshImage: ", this.reviewerMeshImage);
+            
+            // 2. Display in popup
+            this.openModal()
+            this.showModal = true;
+            this.meshComplete = true; // TODO: inside API call
+            console.log("showModal: ", this.showModal)
+        },
+
+        openModal() {
+            this.showModal = true;
+        },
+
+        closeModal() {
+            this.showModal = false;
+        },
     },
     created() {
         this.productId = this.$route.params.productId; 
         try {
-            this.$axios.get(`/api/goods/${this.productId}/reviews?user_id=100`)
+            this.$axios.get(`/api/goods/${this.productId}/reviews?user_id=1`)
                 .then(response => {
                     console.log(response.data);
                     this.reviews = response.data;
@@ -125,6 +158,9 @@ export default {
                                 this.loadComplete = true;
                             }, 3000);
                     } else {
+                        setTimeout(() => {
+                                this.loadComplete = true;
+                            }, 3000);
                         console.error(error);
                     }
                 });
@@ -215,5 +251,24 @@ export default {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 </style>
