@@ -83,6 +83,7 @@ export default {
   align-items: center;
   justify-content: normal;
   max-height: 300px;
+  margin-top: 100px;
 }
 
 .title {
@@ -117,7 +118,7 @@ export default {
   display: flex;
   flex-direction: column; /* 위아래로 정렬하기 위해 flex-direction: column; 추가 */
   align-items: center; /* 수직 정렬을 위해 align-items 추가 */
-  margin-top : 100px;
+  margin-top : 140px;
   position: absolute;
 }
 
@@ -129,7 +130,7 @@ export default {
 .next-button {
   padding: 10px 20px;
   font-size: 16px;
-  margin-left: 700px;
+  margin-left: 450px;
   margin-top: 150px;
   position: absolute;
 }
