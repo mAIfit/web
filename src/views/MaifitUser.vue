@@ -9,7 +9,14 @@
         </div>
       </div>
     <div class="input-fields">
-      <input type="string" v-model="gender" placeholder="성별(M,F)" />
+      <div>
+        <label for="male">남성</label>
+        <input type="radio" id="male" value="M" v-model="gender" />
+      </div>
+      <div>
+        <label for="female">여성</label>
+        <input type="radio" id="female" value="F" v-model="gender" />
+      </div>
       <input type="number" v-model="height" placeholder="키(cm)" />
     </div>
     <button class="next-button" @click="uploadImage">다음</button>
