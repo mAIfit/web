@@ -79,6 +79,10 @@ export default {
     float: left;
 }
 
+.image-container img {
+    max-height: 400px;
+}
+
 .info-container {
     width: 50%;
     float: left;
