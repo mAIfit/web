@@ -39,11 +39,11 @@ export default {
     handleImageUpload(event) {
       const file = event.target.files[0];
       //console.log(file);
-      //const reader = new FileReader();
-      //reader.onload = () => {
-      //  this.selectedImage = reader.result;
-      //};
-      //reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedImage = reader.result;
+      };
+      reader.readAsDataURL(file);
       formData.append('image', file);
     },
     uploadImage() {
@@ -90,7 +90,6 @@ export default {
   align-items: center;
   justify-content: normal;
   max-height: 300px;
-  margin-top: 100px;
 }
 
 .title {
@@ -101,14 +100,14 @@ export default {
 .image-upload {
   flex-direction: column;
   margin-top: 30px;
-  margin-bottom: 200px;
   text-align: center;
+  max-height: 300px;
 }
 
 .preview {
   /* 크기를 일치시킴 */
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   margin: auto;
   position: relative; /* 추가 */
@@ -118,14 +117,13 @@ export default {
 .preview img {
   max-width: 100%;
   max-height: 100%;
-  margin-top: 50px;
 }
 
 .input-fields {
   display: flex;
   flex-direction: column; /* 위아래로 정렬하기 위해 flex-direction: column; 추가 */
   align-items: center; /* 수직 정렬을 위해 align-items 추가 */
-  margin-top : 140px;
+  margin-top : 400px;
   position: absolute;
 }
 
@@ -138,7 +136,7 @@ export default {
   padding: 10px 20px;
   font-size: 16px;
   margin-left: 450px;
-  margin-top: 150px;
+  margin-top: 400px;
   position: absolute;
 }
 </style>
