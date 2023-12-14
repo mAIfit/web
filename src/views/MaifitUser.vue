@@ -9,11 +9,9 @@
         </div>
       </div>
     <div class="input-fields">
-      <div>
+      <div class="gender-selection">
         <label for="male">남성</label>
         <input type="radio" id="male" value="M" v-model="gender" />
-      </div>
-      <div>
         <label for="female">여성</label>
         <input type="radio" id="female" value="F" v-model="gender" />
       </div>
@@ -132,11 +130,21 @@ export default {
   margin-right: 20px;
 }
 
+.gender-selection {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.gender-selection label {
+  margin-right: 10px;
+}
+
 .next-button {
   padding: 10px 20px;
   font-size: 16px;
-  margin-left: 450px;
-  margin-top: 400px;
+  margin-left: 400px;
+  margin-top: 430px;
   position: absolute;
 }
 </style>
