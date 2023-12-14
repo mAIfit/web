@@ -1,8 +1,8 @@
 <template>
 <div>
     <div class="image-container">
-        <img :src="require(`@/assets/test/blood.jpg`)" alt="user image" class="half-size">
-        <img :src="require(`@/assets/test/blood.jpg`)" alt="reviewer image" class="half-size">
+        <img :src="this.userMeshImage" alt="user image" class="half-size">
+        <img :src="this.reviewerMeshImage" alt="reviewer image" class="half-size">
     </div>
 </div>
 </template>
@@ -29,8 +29,8 @@ export default {
                 .then(response => {
                     console.log('compare success');
                     console.log(response.data);
-                    this.userMeshImage = response.data.user_model_image;
-                    this.reviewerMeshImage = response.data.review_model_image;
+                    this.userMeshImage = response.data.user_overlayed_image;
+                    this.reviewerMeshImage = response.data.review_overlayed_image;
                 })
                 .catch(error => {
                     console.error(error);
