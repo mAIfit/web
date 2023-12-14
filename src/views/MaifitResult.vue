@@ -5,7 +5,7 @@
         <div class="image-label-container" v-if="displayedReview">
             <div class="displayed-image">
                 <img
-                    :src="require(`@/assets/test/${displayedReview.image}`)"
+                    :src="displayedReview.image"
                     alt="Displayed Image"
                     class="displayed-image"
                 />
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div @click="closeModal">
-                    content <br/>
+                    comment <br/>
                     {{ displayedReview.content }}
                 </div>
             </div>
@@ -56,7 +56,7 @@
                 <div class="scroll-content">
                     <div v-for="review in reviews" :key="review.id" class="image-item">
                         <img
-                            :src="require(`@/assets/test/${review.image}`)"
+                            :src="review.image"
                             alt="Image"
                             class="image"
                             @click="displayReview(review.id)"
@@ -66,14 +66,6 @@
             </div>
         </div>
 
-        
-        <!-- Modal -->
-        <!-- <MaifitMesh v-if="showModal" 
-                    :userMeshImage=userMeshImage
-                    :reviewerMeshImage=reviewerMeshImage
-                    @close-modal="showModal=false"
-                    :meshComplete="meshComplete"
-        /> -->
         <button @click="goToHome" class="button">Home</button>
     </div>
 </template>
@@ -88,14 +80,7 @@ export default {
     data() {
         return {
             productId: "",
-            reviews: [
-                { id: 1, image: "blood.jpg" , height: 170, weight: 60, product_size: "M", content: "C1" },
-                { id: 2, image: "butterfly.jpg" , height: 170, weight: 65, product_size: "L", content: "C2" },
-                { id: 3, image: "color.jpg" , height: 170, weight: 64, product_size: "XL", content: "C3" },
-                { id: 4, image: "quality.webp" , height: 170, weight: 63, product_size: "S", content: "C4" },
-                { id: 5, image: "valentines.png" , height: 170, weight: 62, product_size: "M", content: "C5" },
-                { id: 6, image: "yoga.webp" , height: 170, weight: 61, product_size: "L", content: "C6" },
-            ],
+            reviews: null,
             displayedReview: null,
             loadComplete: false,
 
@@ -110,6 +95,7 @@ export default {
     methods: {
         displayReview(id) {
             this.displayedReview = this.reviews.find(review => review.id === id);
+            console.log("displayedReview: ", this.displayedReview);
         },
 
         goToHome() {
@@ -118,30 +104,6 @@ export default {
 
         displayBodyShapeCompatibility() {
             console.log("displayBodyShapeCompatibility");
-            // API call to get human mesh from user and reviewer
-            // display in popup
-
-            // this.meshComplete = false;
-            // // 1. API call
-            // this.$axios.get(`/api/reviews/:${this.displayedReview.id}/body_shapes?user_id=${this.userId}`)
-            //     .then(response => {
-            //         console.log(response.data);
-            //         this.userMeshImage = response.data.user_model_image;
-            //         this.reviewerMeshImage = response.data.review_model_image;
-            //         this.meshComplete = true; // TODO: inside API call
-            //         // 2. Display in popup
-            //         this.openModal();
-            //     })
-            //     .catch(error => {
-            //         console.error(error);
-            //         this.userMeshImage = require(`@/assets/test/${this.reviews[0].image}`);
-            //         this.reviewerMeshImage = require(`@/assets/test/${this.displayedReview.image}`);
-            //         // alert("Error: " + error);
-            //     });
-            // console.log("userMeshImage: ", this.userMeshImage);
-            // console.log("reviewerMeshImage: ", this.reviewerMeshImage);
-            // this.openModal();
-            // console.log("showModal: ", this.showModal)
             this.$router.push({ path: `/maifit/compare/${this.userId}/${this.displayedReview.id}` });
         },
 
@@ -158,22 +120,16 @@ export default {
         this.userId = this.$route.params.userId;
         console.log('productId: ', this.productId);
         console.log('userId: ', this.userId);
-        // try {
-        //     this.$axios.get(`/api/goods/${this.productId}/reviews?user_id=${this.userId}`)
-        //         .then(response => {
-        //             console.log(response.data);
-        //             this.reviews = response.data;
-        //             this.loadComplete = true;
-        //         })
-        // } catch (error) {
-        //     console.log("Error: ", error);
-        //     setTimeout(() => {
-        //         this.loadComplete = true;
-        //     }, 3000);
-        // }
-        setTimeout(() => {
-                this.loadComplete = true;
-            }, 1000);
+        try {
+            this.$axios.get(`/api/goods/${this.productId}/reviews?user_id=${this.userId}`)
+                .then(response => {
+                    console.log('fetch reviews success');
+                    this.reviews = response.data;
+                    this.loadComplete = true;
+                })
+        } catch (error) {
+            alert("Error: ", error)
+        }
     }
 };
 </script>
@@ -212,8 +168,6 @@ export default {
 
 .image-list {
     width: 1000px;
-    overflow-x: auto;
-    white-space: nowrap;
 }
 
 .scroll-container {

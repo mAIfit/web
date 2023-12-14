@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       userId: 0,
+      productLink: '',
     }
   },
   methods: {
@@ -59,6 +60,7 @@ export default {
 
   created() {
     this.userId = this.$route.params.userId;
+    console.log('userId: '+this.userId);
   },
 }
 </script>

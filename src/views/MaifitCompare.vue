@@ -24,17 +24,24 @@ export default {
         this.reviewId = this.$route.params.reviewId;
         console.log("userId: ", this.userId);
         console.log("reviewId: ", this.reviewId);
-        this.$axios.get(`/api/reviews/${this.reviewId}/body_shapes?user_id=${this.userId}`)
-            .then(response => {
-                console.log(response.data);
-                this.userMeshImage = response.data.user_model_image;
-                this.reviewerMeshImage = response.data.review_model_image;
-            })
-            .catch(error => {
-                console.error(error);
-                this.userMeshImage = require(`@/assets/test/blood.jpg`);
-                this.reviewerMeshImage = require(`@/assets/test/butterfly.jpg`);    
-            });
+        try {
+            this.$axios.get(`/api/reviews/${this.reviewId}/body_shapes?user_id=${this.userId}`)
+                .then(response => {
+                    console.log('compare success');
+                    console.log(response.data);
+                    this.userMeshImage = response.data.user_model_image;
+                    this.reviewerMeshImage = response.data.review_model_image;
+                })
+                .catch(error => {
+                    console.error(error);
+                    this.userMeshImage = require(`@/assets/test/blood.jpg`);
+                    this.reviewerMeshImage = require(`@/assets/test/butterfly.jpg`);
+                });
+        } catch (error) {
+            console.log("Error: ", error);
+            this.userMeshImage = require(`@/assets/test/blood.jpg`);
+            this.reviewerMeshImage = require(`@/assets/test/butterfly.jpg`);
+        }
         console.log("userMeshImage: ", this.userMeshImage);
         console.log("reviewerMeshImage: ", this.reviewerMeshImage);
     },
