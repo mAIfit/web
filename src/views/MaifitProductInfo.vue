@@ -5,7 +5,10 @@
                 <img :src="image_path" alt="Product Image" />
             </div>
             <div class="info-container">
-                <h2>[{{ brand }}] {{ name }}</h2>
+                <h2>[{{ brand }}]</h2>
+            </div>
+            <div class="info-container">
+                <h2>{{ name }}</h2>
             </div>
         </div>
         <div class="button-container">
@@ -43,7 +46,8 @@ export default {
             // https://www.musinsa.com/app/goods/2794019
             this.productId = this.$route.params.productId; // Get the "productId" parameter from the router
             console.log('productId: ', this.productId);
-            this.$axios.get(`http://kevinshin.iptime.org/goods/${this.productId}`)
+            // /goods/2794019
+            this.$axios.get(`/api/goods/${this.productId}`)
                 .then(response => {
                     this.showPrevButton = false;
                     console.log(response.data);

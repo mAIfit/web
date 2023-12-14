@@ -121,6 +121,7 @@ export default {
         console.log('productId: ', this.productId);
         console.log('userId: ', this.userId);
         try {
+            // /goods/2794019/reviews?user_id=48
             this.$axios.get(`/api/goods/${this.productId}/reviews?user_id=${this.userId}`)
                 .then(response => {
                     console.log('fetch reviews success');
